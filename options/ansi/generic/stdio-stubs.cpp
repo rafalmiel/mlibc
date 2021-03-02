@@ -958,6 +958,7 @@ int puts(const char *string) {
 	size_t len = strlen(string);
 	while(progress < len) {
 		size_t chunk;
+        
 		if(file->write(string + progress,
 				len - progress, &chunk)) {
 			return EOF;
