@@ -147,13 +147,15 @@ int abstract_file::read(char *buffer, size_t max_size, size_t *actual_size) {
 
 int abstract_file::write(const char *buffer, size_t max_size, size_t *actual_size) {
 	__ensure(max_size);
-
+    
 	if(_init_bufmode())
 		return -1;
+    
 	if(globallyDisableBuffering || _bufmode == buffer_mode::no_buffer) {
 		// As we do not buffer, nothing can be dirty.
-		__ensure(__dirty_begin == __dirty_end);
+		//__ensure(__dirty_begin == __dirty_end);
 		size_t io_size;
+        
 		if(int e = io_write(buffer, max_size, &io_size); e) {
 			__status_bits |= __MLIBC_ERROR_BIT;
 			return e;
@@ -299,9 +301,10 @@ int abstract_file::_init_type() {
 int abstract_file::_init_bufmode() {
 	if(_bufmode != buffer_mode::unknown)
 		return 0;
-
+    
 	if(determine_bufmode(&_bufmode))
 		return -1;
+    
 	__ensure(_bufmode != buffer_mode::unknown);
 	return 0;
 }
@@ -423,6 +426,7 @@ int fd_file::determine_type(stream_type *type) {
 int fd_file::determine_bufmode(buffer_mode *mode) {
 	// When isatty() is not implemented, we fall back to the safest default (no buffering).
 	if(!mlibc::sys_isatty) {
+        
 		MLIBC_MISSING_SYSDEP();
 		*mode = buffer_mode::no_buffer;
 		return 0;
@@ -466,9 +470,9 @@ int fd_file::io_seek(off_t offset, int whence, off_t *new_offset) {
 } // namespace mlibc
 
 namespace {
-	mlibc::fd_file stdin_file{0};
-	mlibc::fd_file stdout_file{1};
-	mlibc::fd_file stderr_file{2};
+	mlibc::fd_file __attribute__((init_priority(1))) stdin_file{0};
+	mlibc::fd_file __attribute__((init_priority(1))) stdout_file{1};
+	mlibc::fd_file __attribute__((init_priority(1))) stderr_file{2};
 
 	struct stdio_guard {
 		stdio_guard() { }

@@ -16,6 +16,7 @@ struct FutexLock {
 	static constexpr inline uint32_t waitersBit = (1 << 31);
 
 	void lock() {
+        return;
 
 		unsigned int expected = 0;
 		while(true) {
@@ -42,6 +43,7 @@ struct FutexLock {
 	}
 
 	void unlock() {
+        return;
 		if (__atomic_exchange_n(&_futex, 0, __ATOMIC_RELEASE) & waitersBit)
 			if(int e = mlibc::sys_futex_wake(&_futex); e)
 				__ensure(!"sys_futex_wake() failed");
