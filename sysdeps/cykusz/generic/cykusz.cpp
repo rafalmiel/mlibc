@@ -24,34 +24,26 @@ namespace mlibc{
 	}
 
 	int sys_vm_map(void *hint, size_t size, int prot, int flags, int fd, off_t offset, void **window) {
-		sys_libc_log("alloc mmap");
-		return -1;
+		ssize_t res = syscalln6(SYS_MMAP, (uint64_t)hint, size, prot, flags, fd, offset);
+
+		if (res < 0)
+			return -res;
+
+		*window = (void*)res;
+
+		return 0;
 	}
 
 	int sys_vm_unmap(void* address, size_t size) {
-		sys_libc_log("alloc unmmap");
-		return -1;
+		return syscalln2(SYS_MUNMAP, (uint64_t)address, size);
 	}
 
 	int sys_anon_allocate(size_t size, void **pointer) {
-		static char buf[4096*4096*16] = {};
-		static char* ptr = &buf[0];
-        
-		*pointer = ptr;
-
-		char* prev = ptr;
-		
-		ptr += (size + 0xfff) & ~(0xfffull);
-
-		for (; prev < ptr; ++prev) {
-			*prev = 0;
-		}
-        
-		return 0;
+		return sys_vm_map(nullptr, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0, pointer);
 	}
 
 	int sys_anon_free(void *pointer, size_t size) {
-		return 0;
+		return sys_vm_unmap(pointer, size);
 	}
 
 	void sys_libc_panic(){
