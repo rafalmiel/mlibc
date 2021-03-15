@@ -48,7 +48,7 @@ namespace mlibc{
 
 	void sys_libc_panic(){
 		syscalln3(SYS_WRITE, 1, (unsigned long long)"PANIC\n", 6);
-		for(;;);
+		sys_exit(1);
 	}
 
 	void sys_libc_log(const char* msg){
