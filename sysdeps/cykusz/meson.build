@@ -1,15 +1,24 @@
 
-rtdl_sources += files(
+rtdl_sources = files(
 	'generic/filesystem.cpp',
-)
+) + rtdl_sources
 
-libc_sources += files(
+libc_sources = files(
+	'generic/signals.cpp',
 	'generic/cykusz.cpp',
 	'generic/sockets.cpp',
 	'generic/entry.cpp',
 	'generic/thread_entry.S',
 	'generic/thread.cpp'
-)
+) + libc_sources
+
+if host_machine.cpu_family() == 'x86_64'
+	libc_sources += files(
+		'x86_64/signals.S',
+	)
+else
+	error('Unknown architecture')
+endif
 
 if not no_headers
 	install_headers(
