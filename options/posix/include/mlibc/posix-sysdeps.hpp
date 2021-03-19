@@ -149,7 +149,7 @@ int sys_vm_unmap(void *pointer, size_t size);
 [[gnu::weak]] int sys_waitpid(pid_t pid, int *status, int flags, pid_t *ret_pid);
 [[gnu::weak]] int sys_sigprocmask(int how, const sigset_t *__restrict set,
 		sigset_t *__restrict retrieve);
-[[gnu::weak]] int sys_sigaction(int, const struct sigaction *__restrict,
+int sys_sigaction(int, const struct sigaction *__restrict,
 		struct sigaction *__restrict);
 [[gnu::weak]] int sys_kill(int, int);
 [[gnu::weak]] int sys_accept(int fd, int *newfd, struct sockaddr *addr_ptr, socklen_t *addr_length);
