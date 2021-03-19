@@ -28,6 +28,11 @@
 #define SYS_MMAP 27
 #define SYS_MUNMAP 28
 
+#define SYS_WAITPID 33
+#define SYS_IOCTL 34
+#define SYS_SIGACTION 35
+#define SYS_SIGRETURN 36
+
 
 #ifdef __cplusplus
 extern "C"{
