@@ -7,6 +7,8 @@
 #include <mlibc/thread-entry.hpp>
 #include <errno.h>
 
+#define ARCH_SET_FS 0x1002
+
 namespace mlibc{
 	int sys_futex_wait(int *pointer, int expected){
 		ssize_t res = syscalln2(SYS_FUTEX_WAIT, (uint64_t)pointer, (uint64_t)expected);
@@ -27,6 +29,11 @@ namespace mlibc{
 	}
 
 	int sys_tcb_set(void* pointer){
+		ssize_t res = syscalln2(SYS_ARCH_PRCTL, ARCH_SET_FS, (uint64_t)pointer);
+
+		if res < 0 {
+			return -res;
+		}
 
 		return 0;
 	}
