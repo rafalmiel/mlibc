@@ -35,6 +35,7 @@
 
 #define SYS_FUTEX_WAIT 37
 #define SYS_FUTEX_WAKE 38
+#define SYS_ARCH_PRCTL 39
 
 
 #ifdef __cplusplus
