@@ -33,6 +33,9 @@
 #define SYS_SIGACTION 35
 #define SYS_SIGRETURN 36
 
+#define SYS_FUTEX_WAIT 37
+#define SYS_FUTEX_WAKE 38
+
 
 #ifdef __cplusplus
 extern "C"{

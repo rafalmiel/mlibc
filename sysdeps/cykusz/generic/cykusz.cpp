@@ -9,11 +9,19 @@
 
 namespace mlibc{
 	int sys_futex_wait(int *pointer, int expected){
+		ssize_t res = syscalln2(SYS_FUTEX_WAIT, (uint64_t)pointer, (uint64_t)expected);
+
+		if (res < 0)
+			return -res;
 
 		return 0;
 	}
 
 	int sys_futex_wake(int *pointer) {
+		ssize_t res = syscalln1(SYS_FUTEX_WAKE, (uint64_t)pointer);
+
+		if (res < 0)
+			return -res;
 
 		return 0;
 	}
