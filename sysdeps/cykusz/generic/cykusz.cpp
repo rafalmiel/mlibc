@@ -7,6 +7,9 @@
 #include <mlibc/thread-entry.hpp>
 #include <errno.h>
 
+#include <frg/vector.hpp>
+#include <mlibc/allocator.hpp>
+
 #define ARCH_SET_FS 0x1002
 
 namespace mlibc{
@@ -28,10 +31,71 @@ namespace mlibc{
 		return 0;
 	}
 
+	struct SliceParam {
+		void* ptr;
+		uint64_t len;
+	};
+
+	static frg::vector<SliceParam, MemoryAllocator> prepareSlice(char *const arg[]) {
+		if (arg == nullptr) {
+			return frg::vector<SliceParam, MemoryAllocator>{getAllocator()};
+		}
+
+		size_t len = 0;
+
+		while (arg[len] != nullptr) {
+			len += 1;
+		}
+
+		frg::vector<SliceParam, MemoryAllocator> params{getAllocator()};
+		params.resize(len);
+
+		for (size_t i = 0; i < len; ++i) {
+			params[i].ptr = (void*)arg[i];
+			params[i].len = strlen(arg[i]);
+		}
+
+		return params;
+
+	}
+
+	int sys_execve(const char *path, char *const argv[], char *const envp[]) {
+		SliceParam ppath = SliceParam { ptr: (void*)path, strlen(path) };
+		SliceParam args = SliceParam { ptr: nullptr, len: 0 };
+		SliceParam envs = SliceParam { ptr: nullptr, len: 0 };
+
+		uint64_t ap = 0;
+		uint64_t ep = 0;
+
+		auto arg_slice = prepareSlice(argv);
+
+		if (argv != nullptr) {
+			args.ptr = (void*)arg_slice.data();
+			args.len = arg_slice.size();
+			ap = (uint64_t)&args;
+		}
+
+		auto env_slice = prepareSlice(envp);
+
+		if (envp != nullptr) {
+			envs.ptr = (void*)env_slice.data();
+			envs.len = env_slice.size();
+			ep = (uint64_t)&envs;
+		}
+
+		ssize_t res = syscalln3(SYS_EXEC, (uint64_t)&ppath, ap, ep);
+
+		if (res < 0) {
+			return -res;
+		}
+
+		return 0;
+	}
+
 	int sys_tcb_set(void* pointer){
 		ssize_t res = syscalln2(SYS_ARCH_PRCTL, ARCH_SET_FS, (uint64_t)pointer);
 
-		if res < 0 {
+		if (res < 0) {
 			return -res;
 		}
 
