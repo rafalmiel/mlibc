@@ -13,6 +13,11 @@
 #define ARCH_SET_FS 0x1002
 
 namespace mlibc{
+
+	int sys_futex_tid() {
+		return syscalln0(SYS_GETTID);
+	}
+
 	int sys_futex_wait(int *pointer, int expected){
 		ssize_t res = syscalln2(SYS_FUTEX_WAIT, (uint64_t)pointer, (uint64_t)expected);
 
@@ -141,7 +146,7 @@ namespace mlibc{
 	}
 
 	pid_t sys_getpid(){
-		return 0;
+		return syscalln0(SYS_GETPID);
 	}
 	
 	int sys_clock_get(int clock, time_t *secs, long *nanos) {
@@ -197,10 +202,18 @@ namespace mlibc{
 	}
 
 	int sys_clone(void *entry, void *user_arg, void *tcb, pid_t *tid_out){
-		return -1;
+		auto stack = prepare_stack(entry, user_arg, tcb);
+                pid_t tid = syscall(SYS_SPAWN_THREAD, __mlibc_start_thread, stack);
+
+                if(tid_out){
+                        *tid_out = tid;
+                }
+
+                return 0;
 	}
 
 	void sys_thread_exit(){
+		syscalln0(SYS_EXIT_THREAD);
 	}
 
 	int sys_waitpid(pid_t pid, int *status, int flags, pid_t *ret_pid){

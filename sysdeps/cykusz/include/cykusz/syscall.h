@@ -36,7 +36,10 @@
 #define SYS_FUTEX_WAIT 37
 #define SYS_FUTEX_WAKE 38
 #define SYS_ARCH_PRCTL 39
-
+#define SYS_SPAWN_THREAD 40
+#define SYS_EXIT_THREAD 41
+#define SYS_GETPID 42
+#define SYS_GETTID 43
 
 #ifdef __cplusplus
 extern "C"{
