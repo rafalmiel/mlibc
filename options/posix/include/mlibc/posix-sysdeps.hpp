@@ -36,7 +36,7 @@ int sys_futex_wait(int *pointer, int expected, const struct timespec *time);
 int sys_futex_wake(int *pointer);
 
 [[noreturn]] void sys_exit(int status);
-[[noreturn, gnu::weak]] void sys_thread_exit();
+[[noreturn]] void sys_thread_exit();
 int sys_clock_get(int clock, time_t *secs, long *nanos);
 
 int sys_open(const char *pathname, int flags, mode_t mode, int *fd);
@@ -80,7 +80,7 @@ int sys_close(int fd);
 [[gnu::weak]] gid_t sys_getegid();
 [[gnu::weak]] uid_t sys_getuid();
 [[gnu::weak]] uid_t sys_geteuid();
-[[gnu::weak]] pid_t sys_getpid();
+              pid_t sys_getpid();
 [[gnu::weak]] pid_t sys_getppid();
 [[gnu::weak]] pid_t sys_getpgid(pid_t pid, pid_t *pgid);
 [[gnu::weak]] pid_t sys_getsid(pid_t pid, pid_t *sid);
@@ -93,7 +93,7 @@ int sys_close(int fd);
 [[gnu::weak]] void sys_yield();
 [[gnu::weak]] int sys_sleep(time_t *secs, long *nanos);
 [[gnu::weak]] int sys_fork(pid_t *child);
-[[gnu::weak]] int sys_clone(void *entry, void *user_arg, void *tcb, pid_t *pid_out);
+              int sys_clone(void *entry, void *user_arg, void *tcb, pid_t *pid_out);
 	      int sys_execve(const char *path, char *const argv[], char *const envp[]);
 [[gnu::weak]] int sys_pselect(int num_fds, fd_set *read_set, fd_set *write_set,
 		fd_set *except_set, const struct timespec *timeout, const sigset_t *sigmask, int *num_events);

@@ -41,7 +41,7 @@ namespace mlibc{
 	}
 
 	int sys_seek(int fd, off_t offset, int whence, off_t *new_offset) {
-		return 0;
+		return ESPIPE;
 	}
 
 

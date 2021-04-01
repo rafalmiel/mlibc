@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <errno.h>
+#include <stdio.h>
 
 #include <bits/ensure.h>
 #include <frg/allocation.hpp>

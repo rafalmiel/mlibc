@@ -178,7 +178,7 @@ int abstract_file::write(const char *buffer, size_t max_size, size_t *actual_siz
     
 	if(globallyDisableBuffering || _bufmode == buffer_mode::no_buffer) {
 		// As we do not buffer, nothing can be dirty.
-		//__ensure(__dirty_begin == __dirty_end);
+		__ensure(__dirty_begin == __dirty_end);
 		size_t io_size;
         
 		if(int e = io_write(buffer, max_size, &io_size); e) {
@@ -463,9 +463,9 @@ int fd_file::determine_type(stream_type *type) {
 
 int fd_file::determine_bufmode(buffer_mode *mode) {
 	// When isatty() is not implemented, we fall back to the safest default (no buffering).
-	if(!mlibc::sys_isatty) {
+	if(!mlibc::sys_isatty/* || _fd == 1 || _fd == 2*/) {
         
-		MLIBC_MISSING_SYSDEP();
+		//MLIBC_MISSING_SYSDEP();
 		*mode = buffer_mode::no_buffer;
 		return 0;
 	}

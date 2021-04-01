@@ -5,6 +5,7 @@
 #include <sys/mman.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <pthread.h>
 
 extern "C" void __mlibc_enter_thread(void *entry, void *user_arg, Tcb *tcb) {
 	// Wait until our parent sets up the TID.
