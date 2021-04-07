@@ -43,9 +43,9 @@ int sys_clock_get(int clock, time_t *secs, long *nanos);
 [[gnu::weak]] int sys_rename(const char *path, const char *new_path);
 [[gnu::weak]] int sys_renameat(int olddirfd, const char *old_path, int newdirfd, const char *new_path);
 
-[[gnu::weak]] int sys_sigprocmask(int how, const sigset_t *__restrict set,
+              int sys_sigprocmask(int how, const sigset_t *__restrict set,
 		sigset_t *__restrict retrieve);
-[[gnu::weak]] int sys_sigaction(int, const struct sigaction *__restrict,
+              int sys_sigaction(int, const struct sigaction *__restrict,
 		struct sigaction *__restrict);
 
 [[gnu::weak]] int sys_fork(pid_t *child);
