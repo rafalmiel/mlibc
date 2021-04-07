@@ -32,14 +32,15 @@
 #define SYS_IOCTL 34
 #define SYS_SIGACTION 35
 #define SYS_SIGRETURN 36
+#define SYS_SIGPROCMASK 37
 
-#define SYS_FUTEX_WAIT 37
-#define SYS_FUTEX_WAKE 38
-#define SYS_ARCH_PRCTL 39
-#define SYS_SPAWN_THREAD 40
-#define SYS_EXIT_THREAD 41
-#define SYS_GETPID 42
-#define SYS_GETTID 43
+#define SYS_FUTEX_WAIT 38
+#define SYS_FUTEX_WAKE 39
+#define SYS_ARCH_PRCTL 40
+#define SYS_SPAWN_THREAD 41
+#define SYS_EXIT_THREAD 42
+#define SYS_GETPID 43
+#define SYS_GETTID 44
 
 #ifdef __cplusplus
 extern "C"{
