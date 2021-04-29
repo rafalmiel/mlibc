@@ -89,7 +89,7 @@ int sys_close(int fd);
 [[gnu::weak]] int sys_setegid(gid_t egid);
 [[gnu::weak]] int sys_getgroups(size_t size, const gid_t *list, int *ret);
 [[gnu::weak]] void sys_yield();
-[[gnu::weak]] int sys_sleep(time_t *secs, long *nanos);
+              int sys_sleep(time_t *secs, long *nanos);
 [[gnu::weak]] int sys_fork(pid_t *child);
               int sys_clone(void *entry, void *user_arg, void *tcb, pid_t *pid_out);
 	      int sys_execve(const char *path, char *const argv[], char *const envp[]);
@@ -136,7 +136,7 @@ int sys_vm_unmap(void *pointer, size_t size);
 [[gnu::weak]] int sys_pipe(int *fds, int flags);
 [[gnu::weak]] int sys_socketpair(int domain, int type_and_flags, int proto, int *fds);
 [[gnu::weak]] int sys_poll(struct pollfd *fds, nfds_t count, int timeout, int *num_events);
-[[gnu::weak]] int sys_ioctl(int fd, unsigned long request, void *arg, int *result);
+              int sys_ioctl(int fd, unsigned long request, void *arg, int *result);
 [[gnu::weak]] int sys_getsockopt(int fd, int layer, int number,
 		void *__restrict buffer, socklen_t *__restrict size);
 [[gnu::weak]] int sys_setsockopt(int fd, int layer, int number,

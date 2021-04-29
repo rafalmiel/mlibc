@@ -62,7 +62,15 @@ namespace mlibc{
 	}
 
 	int sys_ioctl(int fd, unsigned long request, void *arg, int *result){
-		return -1;
+		ssize_t res = syscalln3(SYS_IOCTL, (uint64_t)fd, (uint64_t)request, (uint64_t)arg);
+
+		if (res < 0) {
+			return -res;
+		}
+
+		*result = res;
+
+		return 0;
 	}
 
 	int sys_isatty(int fd) {
