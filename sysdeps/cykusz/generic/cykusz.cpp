@@ -88,7 +88,7 @@ namespace mlibc{
 			ep = (uint64_t)&envs;
 		}
 
-		ssize_t res = syscalln3(SYS_EXEC, (uint64_t)&ppath, ap, ep);
+		ssize_t res = syscalln6(SYS_EXEC, (uint64_t)path, strlen(path), 0, 0, 0, 0);
 
 		if (res < 0) {
 			return -res;
@@ -150,6 +150,9 @@ namespace mlibc{
 	}
 	
 	int sys_clock_get(int clock, time_t *secs, long *nanos) {
+		*nanos = 0;
+		*secs = syscalln0(SYS_TIME);
+
 		return 0;
 	}
 
@@ -162,7 +165,11 @@ namespace mlibc{
 	}
 
 	int sys_sleep(time_t* sec, long* nanosec){
-		return -1;
+		uint64_t to_sleep = *sec + *nanosec;
+
+		syscalln1(SYS_SLEEP, to_sleep);
+
+		return 0;
 	}
 	
 	uid_t sys_getuid(){
