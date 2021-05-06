@@ -18,7 +18,7 @@
 #define SYS_SELECT 15
 #define SYS_MOUNT 16
 #define SYS_TIME 18
-#define SYS_LINK 19
+#define SYS_SYMLINK 19
 #define SYS_RMDIR 20
 #define SYS_UNLINK 21
 #define SYS_LINK 22
@@ -41,6 +41,9 @@
 #define SYS_EXIT_THREAD 42
 #define SYS_GETPID 43
 #define SYS_GETTID 44
+#define SYS_SETSID 45
+#define SYS_SETPGID 46
+#define SYS_PIPE 47
 
 #ifdef __cplusplus
 extern "C"{
