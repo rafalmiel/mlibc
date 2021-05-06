@@ -147,5 +147,14 @@ namespace mlibc{
 	int sys_chmod(const char *pathname, mode_t mode){
 		return -1;
 	}
+	int sys_pipe(int *fds, int flags) {
+		ssize_t res = syscalln2(SYS_PIPE, (uint64_t)fds, (uint64_t)flags);
+
+		if res < 0 {
+			return -res;
+		}
+
+		return 0;
+	}
 	#endif
 } 
