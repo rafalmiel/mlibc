@@ -65,7 +65,7 @@ namespace mlibc{
 	}
 
 	int sys_execve(const char *path, char *const argv[], char *const envp[]) {
-		SliceParam ppath = SliceParam { ptr: (void*)path, strlen(path) };
+		SliceParam ppath = SliceParam { ptr: (void*)path, len: strlen(path) };
 		SliceParam args = SliceParam { ptr: nullptr, len: 0 };
 		SliceParam envs = SliceParam { ptr: nullptr, len: 0 };
 

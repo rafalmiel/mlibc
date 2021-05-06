@@ -80,7 +80,7 @@ namespace mlibc{
 		return ENOTTY;
 	}
 
-	#ifndef MLIBC_BUILDING_RTDL
+	//#ifndef MLIBC_BUILDING_RTDL
 
 
 	int sys_tcgetattr(int fd, struct termios *attr) {
@@ -128,11 +128,25 @@ namespace mlibc{
 	}
 
 	int sys_dup(int fd, int flags, int* newfd){
-		return -1;
+		ssize_t res = syscalln2(SYS_DUP, (uint64_t)fd, (uint64_t)flags);
+
+		if (res < 0) {
+			return -res;
+		}
+
+		*newfd = res;
+
+		return 0;
 	}
 
 	int sys_dup2(int fd, int flags, int newfd){
-		return -1;
+		ssize_t res = syscalln3(SYS_DUP2, (uint64_t)fd, (uint64_t)newfd, (uint64_t)flags);
+
+		if (res < 0) {
+			return -res;
+		}
+
+		return 0;
 	}
 
 	int sys_fcntl(int fd, int request, va_list args, int* result){
@@ -150,11 +164,11 @@ namespace mlibc{
 	int sys_pipe(int *fds, int flags) {
 		ssize_t res = syscalln2(SYS_PIPE, (uint64_t)fds, (uint64_t)flags);
 
-		if res < 0 {
+		if (res < 0) {
 			return -res;
 		}
 
 		return 0;
 	}
-	#endif
+	//#endif
 } 
