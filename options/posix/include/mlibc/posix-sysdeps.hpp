@@ -57,8 +57,8 @@ int sys_close(int fd);
 
 [[gnu::weak]] int sys_access(const char *path, int mode);
 [[gnu::weak]] int sys_faccessat(int dirfd, const char *pathname, int mode, int flags);
-[[gnu::weak]] int sys_dup(int fd, int flags, int *newfd);
-[[gnu::weak]] int sys_dup2(int fd, int flags, int newfd);
+              int sys_dup(int fd, int flags, int *newfd);
+              int sys_dup2(int fd, int flags, int newfd);
 // In contrast to the isatty() library function, the sysdep function uses return value
 // zero (and not one) to indicate that the file is a terminal.
 [[gnu::weak]] int sys_isatty(int fd);

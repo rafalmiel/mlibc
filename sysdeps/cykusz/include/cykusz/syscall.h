@@ -44,6 +44,8 @@
 #define SYS_SETSID 45
 #define SYS_SETPGID 46
 #define SYS_PIPE 47
+#define SYS_DUP 48
+#define SYS_DUP2 49
 
 #ifdef __cplusplus
 extern "C"{
