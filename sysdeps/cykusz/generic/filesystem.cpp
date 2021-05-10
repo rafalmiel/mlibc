@@ -33,24 +33,56 @@ namespace mlibc{
 	}
 	
 	int sys_pwrite(int fd, const void* buffer, size_t count, off_t off, ssize_t* written){
-		return sys_write(fd, buffer, count, written);
+		long ret = syscalln4(SYS_PWRITE, fd, (uintptr_t)buffer, count, (uint64_t)off);
+
+		if(ret < 0)
+			return -ret;
+
+		*written = ret;
+
+		return 0;
 	}
 	
 	int sys_pread(int fd, void *buf, size_t count, off_t off, ssize_t *bytes_read) {
-		return -1;
+		long ret = syscalln4(SYS_PREAD, fd, (uintptr_t)buf, count, (uint64_t)off);
+		if(ret < 0)
+			return -ret;
+
+		*bytes_read = ret;
+
+		return 0;
 	}
 
 	int sys_seek(int fd, off_t offset, int whence, off_t *new_offset) {
-		return ESPIPE;
+		ssize_t res = syscalln3(SYS_SEEK, (uint64_t)fd, (uint64_t)offset, (uint64_t)whence);
+
+		if (res < 0)
+			return -res;
+
+		*new_offset = res;
+
+		return 0;
 	}
 
 
 	int sys_open(const char* filename, int flags, int* fd){
-		return -1;
+		ssize_t res = syscalln3(SYS_OPEN, (uint64_t)filename, (uint64_t)strlen(filename), (uint64_t)flags);
+
+		if (res < 0)
+			return -res;
+
+		*fd = res;
+
+		return 0;
 	}
 
 	int sys_close(int fd){
-		return -1;
+		ssize_t res = syscalln1(SYS_CLOSE, (uint64_t)fd);
+
+		if (res < 0)
+			return -res;
+
+		return 0;
 	}
 
 	int sys_access(const char* filename, int mode){
@@ -58,7 +90,20 @@ namespace mlibc{
 	}
 	
 	int sys_stat(fsfd_target fsfdt, int fd, const char *path, int flags, struct stat *statbuf){
-		return -1;
+		(void) flags;
+		ssize_t res;
+
+		if (!path) {
+			res = syscalln2(SYS_FSTAT, (uint64_t)fd, (uint64_t)statbuf);
+		} else {
+			res = syscalln3(SYS_STAT, (uint64_t)path, (uint64_t)strlen(path), (uint64_t)statbuf);
+		}
+
+		if (res < 0) {
+			return -res;
+		}
+
+		return 0;
 	}
 
 	int sys_ioctl(int fd, unsigned long request, void *arg, int *result){
@@ -74,7 +119,7 @@ namespace mlibc{
 	}
 
 	int sys_isatty(int fd) {
-		if (fd == 0) {
+		if (fd == 0 || fd == 1 || fd == 2) {
 			return 0;
 		}
 		return ENOTTY;

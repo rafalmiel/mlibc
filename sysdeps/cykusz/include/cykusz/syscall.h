@@ -28,6 +28,11 @@
 #define SYS_MMAP 27
 #define SYS_MUNMAP 28
 
+#define SYS_MAPS 29
+#define SYS_SEEK 30
+#define SYS_PREAD 31
+#define SYS_PWRITE 32
+
 #define SYS_WAITPID 33
 #define SYS_IOCTL 34
 #define SYS_SIGACTION 35
@@ -46,6 +51,9 @@
 #define SYS_PIPE 47
 #define SYS_DUP 48
 #define SYS_DUP2 49
+#define SYS_STAT 50
+#define SYS_FSTAT 51
+#define SYS_GETRLIMIT 52
 
 #ifdef __cplusplus
 extern "C"{
