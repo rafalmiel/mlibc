@@ -62,7 +62,7 @@ int sys_close(int fd);
 // In contrast to the isatty() library function, the sysdep function uses return value
 // zero (and not one) to indicate that the file is a terminal.
 [[gnu::weak]] int sys_isatty(int fd);
-[[gnu::weak]] int sys_stat(fsfd_target fsfdt, int fd, const char *path, int flags,
+              int sys_stat(fsfd_target fsfdt, int fd, const char *path, int flags,
 		struct stat *statbuf);
 [[gnu::weak]] int sys_statvfs(const char *path, struct statvfs *out);
 [[gnu::weak]] int sys_fstatvfs(int fd, struct statvfs *out);

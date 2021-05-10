@@ -130,6 +130,15 @@ namespace mlibc{
 		return sys_vm_unmap(pointer, size);
 	}
 
+	int sys_getrlimit(int resource, struct rlimit *limit) {
+		ssize_t res = syscalln2(SYS_GETRLIMIT, (uint64_t)resource, (uint64_t)limit);
+
+		if (res < 0)
+			return -res;
+
+		return 0;
+	}
+
 	void sys_libc_panic(){
 		syscalln3(SYS_WRITE, 1, (unsigned long long)"PANIC\n", 6);
 		sys_exit(1);
