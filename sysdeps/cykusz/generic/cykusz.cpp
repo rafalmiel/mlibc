@@ -64,6 +64,18 @@ namespace mlibc{
 
 	}
 
+	int sys_fork(pid_t *child) {
+		ssize_t ret = syscalln0(SYS_FORK);
+
+		if (ret < 0) {
+			return -ret;
+		}
+
+		*child = ret;
+
+		return 0;
+	}
+
 	int sys_execve(const char *path, char *const argv[], char *const envp[]) {
 		SliceParam ppath = SliceParam { ptr: (void*)path, len: strlen(path) };
 		SliceParam args = SliceParam { ptr: nullptr, len: 0 };
@@ -74,21 +86,21 @@ namespace mlibc{
 
 		auto arg_slice = prepareSlice(argv);
 
-		if (argv != nullptr) {
-			args.ptr = (void*)arg_slice.data();
-			args.len = arg_slice.size();
-			ap = (uint64_t)&args;
-		}
+		//if (argv != nullptr) {
+		//	args.ptr = (void*)arg_slice.data();
+		//	args.len = arg_slice.size();
+		//	ap = (uint64_t)&args;
+		//}
 
 		auto env_slice = prepareSlice(envp);
 
-		if (envp != nullptr) {
-			envs.ptr = (void*)env_slice.data();
-			envs.len = env_slice.size();
-			ep = (uint64_t)&envs;
-		}
+		//if (envp != nullptr) {
+		//	envs.ptr = (void*)env_slice.data();
+		//	envs.len = env_slice.size();
+		//	ep = (uint64_t)&envs;
+		//}
 
-		ssize_t res = syscalln6(SYS_EXEC, (uint64_t)path, strlen(path), 0, 0, 0, 0);
+		ssize_t res = syscalln6(SYS_EXEC, (uint64_t)path, strlen(path), (uint64_t)arg_slice.data(), arg_slice.size(), (uint64_t)env_slice.data(), env_slice.size());
 
 		if (res < 0) {
 			return -res;
@@ -140,12 +152,15 @@ namespace mlibc{
 	}
 
 	void sys_libc_panic(){
-		syscalln3(SYS_WRITE, 1, (unsigned long long)"PANIC\n", 6);
 		sys_exit(1);
 	}
 
 	void sys_libc_log(const char* msg){
-		syscalln3(SYS_WRITE, 1, (unsigned long long)msg, strlen(msg));
+		syscalln2(SYS_DEBUG, (unsigned long long)msg, strlen(msg));
+	}
+
+	int sys_getrusage(int scope, struct rusage *usage) {
+		return 0;
 	}
 
 	#ifndef MLIBC_BUILDING_RTDL

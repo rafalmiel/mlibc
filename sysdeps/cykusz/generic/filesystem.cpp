@@ -66,7 +66,18 @@ namespace mlibc{
 
 
 	int sys_open(const char* filename, int flags, int* fd){
-		ssize_t res = syscalln3(SYS_OPEN, (uint64_t)filename, (uint64_t)strlen(filename), (uint64_t)flags);
+		ssize_t res = syscalln4(SYS_OPEN, (uint64_t)AT_FDCWD, (uint64_t)filename, (uint64_t)strlen(filename), (uint64_t)flags);
+
+		if (res < 0)
+			return -res;
+
+		*fd = res;
+
+		return 0;
+	}
+
+	int sys_openat(int dirfd, const char* filename, int flags, int* fd){
+		ssize_t res = syscalln4(SYS_OPEN, (uint64_t)dirfd, (uint64_t)filename, (uint64_t)strlen(filename), (uint64_t)flags);
 
 		if (res < 0)
 			return -res;
