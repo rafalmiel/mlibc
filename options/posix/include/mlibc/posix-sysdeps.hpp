@@ -71,7 +71,7 @@ int sys_close(int fd);
 [[gnu::weak]] int sys_ftruncate(int fd, size_t size);
 [[gnu::weak]] int sys_fallocate(int fd, off_t offset, size_t size);
 [[gnu::weak]] int sys_unlinkat(int fd, const char *path, int flags);
-[[gnu::weak]] int sys_openat(int dirfd, const char *path, int flags, int *fd);
+              int sys_openat(int dirfd, const char *path, int flags, int *fd);
 [[gnu::weak]] int sys_socket(int family, int type, int protocol, int *fd);
 [[gnu::weak]] int sys_msg_send(int fd, const struct msghdr *hdr, int flags, ssize_t *length);
 [[gnu::weak]] int sys_msg_recv(int fd, struct msghdr *hdr, int flags, ssize_t *length);
@@ -92,7 +92,7 @@ int sys_close(int fd);
 [[gnu::weak]] int sys_getgroups(size_t size, const gid_t *list, int *ret);
 [[gnu::weak]] void sys_yield();
               int sys_sleep(time_t *secs, long *nanos);
-[[gnu::weak]] int sys_fork(pid_t *child);
+              int sys_fork(pid_t *child);
               int sys_clone(void *entry, void *user_arg, void *tcb, pid_t *pid_out);
 	      int sys_execve(const char *path, char *const argv[], char *const envp[]);
 [[gnu::weak]] int sys_pselect(int num_fds, fd_set *read_set, fd_set *write_set,

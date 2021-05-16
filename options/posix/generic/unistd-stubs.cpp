@@ -391,7 +391,7 @@ int getlogin_r(char *, size_t) {
 }
 
 // optarg and optind are provided to us by the GLIBC part of the mlibc.
-
+#if 0
 static char *scan = NULL; /* Private scan pointer. */
 
 int getopt(int argc, char *const argv[], const char *optstring) {
@@ -439,6 +439,7 @@ int getopt(int argc, char *const argv[], const char *optstring) {
 
 	return c;
 }
+#endif
 
 pid_t getpgid(pid_t pid) {
 	pid_t pgid;
