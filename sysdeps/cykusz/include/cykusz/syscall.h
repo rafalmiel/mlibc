@@ -54,6 +54,7 @@
 #define SYS_STAT 50
 #define SYS_FSTAT 51
 #define SYS_GETRLIMIT 52
+#define SYS_DEBUG 53
 
 #ifdef __cplusplus
 extern "C"{
