@@ -96,8 +96,25 @@ namespace mlibc{
 		return 0;
 	}
 
-	int sys_access(const char* filename, int mode){
-		return -1;
+	int sys_access(const char *path, int mode) {
+		ssize_t ret = syscalln5(SYS_ACCESS, (uint64_t)AT_FDCWD, (uint64_t)path, (uint64_t)strlen(path), (uint64_t)mode, 0);
+
+		if (ret < 0) {
+			return -ret;
+		}
+
+		return 0;
+
+	}
+
+	int sys_faccessat(int dirfd, const char *pathname, int mode, int flags) {
+		ssize_t ret = syscalln5(SYS_ACCESS, (uint64_t)dirfd, (uint64_t)pathname, (uint64_t)strlen(pathname), (uint64_t)mode, (uint64_t)flags);
+
+		if (ret < 0) {
+			return -ret;
+		}
+
+		return 0;
 	}
 	
 	int sys_stat(fsfd_target fsfdt, int fd, const char *path, int flags, struct stat *statbuf){
@@ -163,8 +180,24 @@ namespace mlibc{
 		return -1;
 	}
 
-	int sys_unlink(const char* path){
-		return -1;
+	int sys_unlink(const char *path) {
+		ssize_t ret = syscalln4(SYS_UNLINK, (uint64_t)AT_FDCWD, (uint64_t)path, (uint64_t)strlen(path), 0);
+
+		if (ret < 0) {
+			return -ret;
+		}
+
+		return 0;
+	}
+
+	int sys_unlinkat(int fd, const char *path, int flags) {
+		ssize_t ret = syscalln4(SYS_UNLINK, (uint64_t)fd, (uint64_t)path, (uint64_t)strlen(path), (uint64_t)flags);
+
+		if (ret < 0) {
+			return -ret;
+		}
+
+		return 0;
 	}
 
 	int sys_read_entries(int handle, void *buffer, size_t max_size, size_t *bytes_read){

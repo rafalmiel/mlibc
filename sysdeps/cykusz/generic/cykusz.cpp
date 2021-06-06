@@ -248,8 +248,14 @@ namespace mlibc{
 	}
 
 	int sys_waitpid(pid_t pid, int *status, int flags, pid_t *ret_pid){
-		volatile int* a = (volatile int*)42;
-		*a = 3;
+		ssize_t ret = syscalln3(SYS_WAITPID, (uint64_t)pid, (uint64_t)status, (uint64_t)flags);
+
+		if (ret < 0) {
+			return -ret;
+		}
+
+		*ret_pid = ret;
+
 		return 0;
 	}
 	#endif
