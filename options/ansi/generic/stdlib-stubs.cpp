@@ -496,30 +496,36 @@ size_t wcstombs(char *mb_string, const wchar_t *wc_string, size_t max_size) {
 
 void free(void *ptr) {
 	// TODO: Print PID only if POSIX option is enabled.
+#if 0
 	if(getenv("MLIBC_DEBUG_MALLOC")) {
 		mlibc::infoLogger() << "mlibc (PID ?): free() on "
 				<< ptr << frg::endlog;
 		if((uintptr_t)ptr & 1)
 			mlibc::infoLogger() << __builtin_return_address(0) << frg::endlog;
 	}
+#endif
 	getAllocator().free(ptr);
 }
 
 void *malloc(size_t size) {
 	auto nptr = getAllocator().allocate(size);
 	// TODO: Print PID only if POSIX option is enabled.
+#if 0
 	if(getenv("MLIBC_DEBUG_MALLOC"))
 		mlibc::infoLogger() << "mlibc (PID ?): malloc() returns "
 				<< nptr << frg::endlog;
+#endif
 	return nptr;
 }
 
 void *realloc(void *ptr, size_t size) {
 	auto nptr = getAllocator().reallocate(ptr, size);
 	// TODO: Print PID only if POSIX option is enabled.
+#if 0
 	if(getenv("MLIBC_DEBUG_MALLOC"))
 		mlibc::infoLogger() << "mlibc (PID ?): realloc() on "
 				<< ptr << " returns " << nptr << frg::endlog;
+#endif
 	return nptr;
 }
 

@@ -26,7 +26,7 @@ typedef enum GETOPT_ORDERING_T
 
 /* globally-defined variables */
 char *optarg = 0;
-int optind = 0;
+int optind = 1;
 int opterr = 1;
 int optopt = '?';
 
