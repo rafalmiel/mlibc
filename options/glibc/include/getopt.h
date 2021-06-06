@@ -19,9 +19,9 @@ extern int optind;
 extern int opterr;
 extern int optopt;
 
-int getopt(int, char *const [], const char *);
-int getopt_long(int, char *const[], const char *, const struct option *, int *);
-int getopt_long_only(int, char *const[], const char *, const struct option *, int *);
+int getopt(int, char *const [], const char *) __attribute__((weak));
+int getopt_long(int, char *const[], const char *, const struct option *, int *) __attribute__((weak));
+int getopt_long_only(int, char *const[], const char *, const struct option *, int *) __attribute__((weak));
 
 #define no_argument 0
 #define required_argument 1

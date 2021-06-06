@@ -46,7 +46,11 @@ namespace {
 
 unsigned int this_tid() {
 	auto tcb = mlibc::get_current_tcb();
-	return tcb->tid;
+	if (tcb) {
+		return tcb->tid;
+	} else {
+		return 1;
+	}
 }
 
 } // anonymous namespace
@@ -846,6 +850,8 @@ int pthread_mutex_timedlock(pthread_mutex_t *__restrict,
 int pthread_mutex_unlock(pthread_mutex_t *mutex) {
 	SCOPE_TRACE();
 
+	mlibc::infoLogger() << "pthread_mutex_unlock prev state: " << mutex->__mlibc_state << frg::endlog;
+
 	// Decrement the recursion level and unlock if we hit zero.
 	__ensure(mutex->__mlibc_recursion);
 	if(--mutex->__mlibc_recursion)
@@ -860,6 +866,10 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) {
 	if ((mutex->__mlibc_flags & mutexErrorCheck) && !(state & mutex_owner_mask))
 		return EINVAL;
 
+	if ((state & mutex_owner_mask) != this_tid()) {
+		mlibc::infoLogger() << "mlibc: pthread_mutex_unlock (state & mutex_owner_mask) " << (state & mutex_owner_mask) << " != this_tid() " << this_tid() << frg::endlog;
+		//__ensure(!"pthread_mutex_unlock failed");
+	}
 	__ensure((state & mutex_owner_mask) == this_tid());
 
 	// Wake the futex if there were waiters.

@@ -6,6 +6,7 @@
 
 #include <abi-bits/auxv.h>
 #include <mlibc/debug.hpp>
+#include <mlibc/thread.hpp>
 #include <mlibc/rtdl-sysdeps.hpp>
 #include <mlibc/stack_protector.hpp>
 #include <internal-config.h>
@@ -255,6 +256,7 @@ extern "C" void *interpreterMain(uintptr_t *entry_stack) {
 	auto tcb = allocateTcb();
 	if(mlibc::sys_tcb_set(tcb))
 		__ensure(!"sys_tcb_set() failed");
+	mlibc::set_tcb_ready();
 	if(mlibc::sys_futex_tid) {
 		tcb->tid = mlibc::sys_futex_tid();
 	}else{

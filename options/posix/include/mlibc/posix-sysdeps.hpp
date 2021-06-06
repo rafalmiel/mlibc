@@ -52,8 +52,8 @@ int sys_write(int fd, const void *buf, size_t count, ssize_t *bytes_written);
 int sys_seek(int fd, off_t offset, int whence, off_t *new_offset);
 int sys_close(int fd);
 
-[[gnu::weak]] int sys_access(const char *path, int mode);
-[[gnu::weak]] int sys_faccessat(int dirfd, const char *pathname, int mode, int flags);
+              int sys_access(const char *path, int mode);
+              int sys_faccessat(int dirfd, const char *pathname, int mode, int flags);
               int sys_dup(int fd, int flags, int *newfd);
               int sys_dup2(int fd, int flags, int newfd);
 // In contrast to the isatty() library function, the sysdep function uses return value
@@ -67,8 +67,8 @@ int sys_close(int fd);
 [[gnu::weak]] int sys_rmdir(const char *path);
 [[gnu::weak]] int sys_ftruncate(int fd, size_t size);
 [[gnu::weak]] int sys_fallocate(int fd, off_t offset, size_t size);
-[[gnu::weak]] int sys_unlink(const char *path);
-[[gnu::weak]] int sys_unlinkat(int fd, const char *path, int flags);
+              int sys_unlink(const char *path);
+              int sys_unlinkat(int fd, const char *path, int flags);
               int sys_openat(int dirfd, const char *path, int flags, int *fd);
 [[gnu::weak]] int sys_socket(int family, int type, int protocol, int *fd);
 [[gnu::weak]] int sys_msg_send(int fd, const struct msghdr *hdr, int flags, ssize_t *length);
@@ -141,7 +141,7 @@ int sys_vm_unmap(void *pointer, size_t size);
 		void *__restrict buffer, socklen_t *__restrict size);
 [[gnu::weak]] int sys_setsockopt(int fd, int layer, int number,
 		const void *buffer, socklen_t size);
-[[gnu::weak]] int sys_waitpid(pid_t pid, int *status, int flags, pid_t *ret_pid);
+              int sys_waitpid(pid_t pid, int *status, int flags, pid_t *ret_pid);
 [[gnu::weak]] int sys_sigprocmask(int how, const sigset_t *__restrict set,
 		sigset_t *__restrict retrieve);
 int sys_sigaction(int, const struct sigaction *__restrict,
