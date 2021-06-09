@@ -45,6 +45,8 @@ extern "C" [[ gnu::visibility("hidden") ]] void __cxa_pure_virtual() {
 			<< (void *)__builtin_return_address(0) << frg::endlog;
 }
 
+extern "C" int __cxa_guard_acquire(int64_t *ptr) __attribute__((weak));
+
 extern "C" [[ gnu::visibility("hidden") ]] int __cxa_guard_acquire(int64_t *ptr) {
 	auto guard = reinterpret_cast<Guard *>(ptr);
 	guard->lock();
@@ -57,6 +59,8 @@ extern "C" [[ gnu::visibility("hidden") ]] int __cxa_guard_acquire(int64_t *ptr)
 		return 1;
 	}
 }
+
+extern "C" void __cxa_guard_release(int64_t *ptr) __attribute__((weak));
 
 extern "C" [[ gnu::visibility("hidden") ]] void __cxa_guard_release(int64_t *ptr) {
 	auto guard = reinterpret_cast<Guard *>(ptr);
