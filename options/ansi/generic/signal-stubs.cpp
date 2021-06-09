@@ -2,9 +2,11 @@
 #include <bits/ensure.h>
 #include <errno.h>
 #include <signal.h>
+#include <unistd.h>
 
 #include <mlibc/debug.hpp>
 #include <mlibc/ansi-sysdeps.hpp>
+#include <bits/posix/posix_signal.h>
 
 __sighandler signal(int sn, __sighandler handler) {
 	if(!mlibc::sys_sigaction) {
