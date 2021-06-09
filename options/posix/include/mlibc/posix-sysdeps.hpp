@@ -146,7 +146,7 @@ int sys_vm_unmap(void *pointer, size_t size);
 		sigset_t *__restrict retrieve);
 int sys_sigaction(int, const struct sigaction *__restrict,
 		struct sigaction *__restrict);
-[[gnu::weak]] int sys_kill(int, int);
+              int sys_kill(int, int);
 [[gnu::weak]] int sys_accept(int fd, int *newfd);
 [[gnu::weak]] int sys_bind(int fd, const struct sockaddr *addr_ptr, socklen_t addr_length);
 [[gnu::weak]] int sys_connect(int fd, const struct sockaddr *addr_ptr, socklen_t addr_length);

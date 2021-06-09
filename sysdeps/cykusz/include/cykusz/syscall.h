@@ -56,6 +56,7 @@
 #define SYS_GETRLIMIT 52
 #define SYS_DEBUG 53
 #define SYS_ACCESS 54
+#define SYS_KILL 55
 
 #ifdef __cplusplus
 extern "C"{

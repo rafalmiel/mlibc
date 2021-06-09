@@ -258,5 +258,15 @@ namespace mlibc{
 
 		return 0;
 	}
+
+	int sys_kill(int pid, int sig) {
+		ssize_t ret = syscalln2(SYS_KILL, (uint64_t)pid, (uint64_t)sig);
+
+		if (ret < 0) {
+			return -ret;
+		}
+
+		return 0;
+	}
 	#endif
 } 
