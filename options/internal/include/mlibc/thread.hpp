@@ -5,6 +5,6 @@
 namespace mlibc {
 
 Tcb *get_current_tcb();
-void set_tcb_ready();
+//void set_tcb_ready();
 
 } // namespace mlibc
