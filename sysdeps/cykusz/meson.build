@@ -1,11 +1,13 @@
 
 rtdl_sources = files(
+	'generic/cykusz.cpp',
 	'generic/filesystem.cpp',
 ) + rtdl_sources
 
 libc_sources = files(
 	'generic/signals.cpp',
 	'generic/cykusz.cpp',
+	'generic/filesystem.cpp',
 	'generic/sockets.cpp',
 	'generic/entry.cpp',
 	'generic/thread_entry.S',
@@ -61,5 +63,16 @@ if not headers_only
 		install: true,
 		install_dir: get_option('libdir')
 	)
+
+	if host_machine.cpu_family() == 'x86_64'
+		custom_target('Scrt1',
+			build_by_default: true,
+			command: c_compiler.cmd_array() + ['-c', '-o', '@OUTPUT@', '@INPUT@'],
+			input: 'crt-x86_64/Scrt1.S',
+			output: 'Scrt1.o',
+			install: true,
+			install_dir: get_option('libdir')
+		)
+	endif
 endif
 

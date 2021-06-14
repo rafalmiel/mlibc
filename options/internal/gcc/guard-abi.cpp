@@ -45,9 +45,9 @@ extern "C" [[ gnu::visibility("hidden") ]] void __cxa_pure_virtual() {
 			<< (void *)__builtin_return_address(0) << frg::endlog;
 }
 
-extern "C" int __cxa_guard_acquire(int64_t *ptr) __attribute__((weak));
+//extern "C" int __cxa_guard_acquire(int64_t *ptr) __attribute__((weak));
 
-extern "C" [[ gnu::visibility("hidden") ]] int __cxa_guard_acquire(int64_t *ptr) {
+extern "C" [[ gnu::visibility("protected") ]] int __cxa_guard_acquire(int64_t *ptr) {
 	auto guard = reinterpret_cast<Guard *>(ptr);
 	guard->lock();
 	// relaxed ordering is sufficient because
@@ -60,9 +60,9 @@ extern "C" [[ gnu::visibility("hidden") ]] int __cxa_guard_acquire(int64_t *ptr)
 	}
 }
 
-extern "C" void __cxa_guard_release(int64_t *ptr) __attribute__((weak));
+//extern "C" void __cxa_guard_release(int64_t *ptr) __attribute__((weak));
 
-extern "C" [[ gnu::visibility("hidden") ]] void __cxa_guard_release(int64_t *ptr) {
+extern "C" [[ gnu::visibility("protected") ]] void __cxa_guard_release(int64_t *ptr) {
 	auto guard = reinterpret_cast<Guard *>(ptr);
 	// do a store-release so that compiler generated code can skip calling
 	// __cxa_guard_acquire by doing a load-acquire on Guard::complete.
