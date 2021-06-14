@@ -135,6 +135,7 @@ elif host_machine.system() == 'dripos'
 	libc_include_dirs += include_directories('sysdeps/dripos/include')
 	subdir('sysdeps/dripos')
 elif host_machine.system() == 'cykusz'
+	internal_conf.set('MLIBC_MAP_DSO_SEGMENTS', true)
 	rtdl_include_dirs += include_directories('sysdeps/cykusz/include')
 	libc_include_dirs += include_directories('sysdeps/cykusz/include')
 	subdir('sysdeps/cykusz')

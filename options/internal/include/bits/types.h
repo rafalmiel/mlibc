@@ -292,6 +292,7 @@ typedef __SIZE_TYPE__    __mlibc_size;
 	#T1 " != " #T2);
 
 // Least-width.
+#if 0
 __MLIBC_CHECK_TYPE(__mlibc_int8,  __INT_LEAST8_TYPE__);
 __MLIBC_CHECK_TYPE(__mlibc_int16, __INT_LEAST16_TYPE__);
 __MLIBC_CHECK_TYPE(__mlibc_int32, __INT_LEAST32_TYPE__);
@@ -314,6 +315,7 @@ __MLIBC_CHECK_TYPE(__mlibc_uint64, __UINT_LEAST64_TYPE__);
 	__MLIBC_CHECK_TYPE(__mlibc_uint_fast16, __UINT_FAST16_TYPE__);
 	__MLIBC_CHECK_TYPE(__mlibc_uint_fast32, __UINT_FAST32_TYPE__);
 	__MLIBC_CHECK_TYPE(__mlibc_uint_fast64, __UINT_FAST64_TYPE__);
+#endif
 #endif
 
 #endif // _MLIBC_INTERNAL_TYPES_H

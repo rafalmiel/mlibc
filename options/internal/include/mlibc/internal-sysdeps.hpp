@@ -29,7 +29,7 @@ int sys_read(int fd, void *buf, size_t count, ssize_t *bytes_read);
 int sys_seek(int fd, off_t offset, int whence, off_t *new_offset);
 int sys_close(int fd);
 
-              int sys_stat(fsfd_target fsfdt, int fd, const char *path, int flags,
+[[gnu::weak]] int sys_stat(fsfd_target fsfdt, int fd, const char *path, int flags,
 		struct stat *statbuf);
 // mlibc assumes that anonymous memory returned by sys_vm_map() is zeroed by the kernel / whatever is behind the sysdeps
 int sys_vm_map(void *hint, size_t size, int prot, int flags, int fd, off_t offset, void **window);

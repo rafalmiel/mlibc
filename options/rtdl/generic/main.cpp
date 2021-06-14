@@ -140,10 +140,13 @@ extern "C" [[gnu::alias("dl_debug_state"), gnu::visibility("default")]] void _dl
 [[ gnu::visibility("default") ]] DebugInterface *_dl_debug_addr = &globalDebugInterface;
 
 extern "C" void *interpreterMain(uintptr_t *entry_stack) {
+	//mlibc::infoLogger() << "entered interpret main" << frg::endlog;
 	if(logEntryExit)
 		mlibc::infoLogger() << "Entering ld.so" << frg::endlog;
 	entryStack = entry_stack;
+	//mlibc::infoLogger() << "runtimeTlsMap.initialize()" << frg::endlog;
 	runtimeTlsMap.initialize();
+	//mlibc::infoLogger() << "done runtimeTlsMap.initialize()" << frg::endlog;
 
 	void *phdr_pointer = 0;
 	size_t phdr_entry_size = 0;
@@ -224,6 +227,7 @@ extern "C" void *interpreterMain(uintptr_t *entry_stack) {
 	}
 	globalDebugInterface.base = reinterpret_cast<void*>(ldso_base);
 #else
+	//mlibc::infoLogger() << "setting up phdr stuff" << frg::endlog;
 	auto ehdr = reinterpret_cast<Elf64_Ehdr*>(__ehdr_start);
 	phdr_pointer = reinterpret_cast<void*>((uintptr_t)ehdr->e_phoff + (uintptr_t)ehdr);
 	phdr_entry_size = ehdr->e_phentsize;
@@ -238,9 +242,12 @@ extern "C" void *interpreterMain(uintptr_t *entry_stack) {
 				<< frg::endlog;
 
 	// perform the initial dynamic linking
+	//mlibc::infoLogger() << "initialRepository.initialize()" << frg::endlog;
 	initialRepository.initialize();
 
+	//mlibc::infoLogger() << "globalScore.initialize()" << frg::endlog;
 	globalScope.initialize();
+	//mlibc::infoLogger() << "done globalScore.initialize()" << frg::endlog;
 
 	// Add the dynamic linker, as well as the exectuable to the repository.
 #ifndef MLIBC_STATIC_BUILD
@@ -267,6 +274,7 @@ extern "C" void *interpreterMain(uintptr_t *entry_stack) {
 
 	globalDebugInterface.head = &executableSO->linkMap;
 	executableSO->inLinkMap = true;
+	//mlibc::infoLogger() << "doing linker stuff" << frg::endlog;
 	Loader linker{globalScope.get(), true, 1};
 	linker.submitObject(executableSO);
 	linker.linkObjects();
@@ -274,9 +282,10 @@ extern "C" void *interpreterMain(uintptr_t *entry_stack) {
 	mlibc::initStackGuard(stack_entropy);
 
 	auto tcb = allocateTcb();
+	//mlibc::infoLogger() << "setting up tcb" << frg::endlog;
 	if(mlibc::sys_tcb_set(tcb))
 		__ensure(!"sys_tcb_set() failed");
-	mlibc::set_tcb_ready();
+	//mlibc::set_tcb_ready();
 	if(mlibc::sys_futex_tid) {
 		tcb->tid = mlibc::sys_futex_tid();
 	}else{
@@ -530,6 +539,7 @@ int __dlapi_iterate_phdr(int (*callback)(struct dl_phdr_info *, size_t, void*), 
 extern "C" [[ gnu::visibility("default") ]]
 void __dlapi_enter(uintptr_t *entry_stack) {
 #ifdef MLIBC_STATIC_BUILD
+	//mlibc::infoLogger() << "interpret main" << frg::endlog;
 	interpreterMain(entry_stack);
 #else
 	(void)entry_stack;
