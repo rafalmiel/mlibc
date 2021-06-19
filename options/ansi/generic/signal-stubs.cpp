@@ -18,6 +18,7 @@ __sighandler signal(int sn, __sighandler handler) {
 	sa.sa_handler = handler;
 	sa.sa_flags = 0;
 	sa.sa_mask = 0;
+	sa.sa_sigaction = 0;
 	struct sigaction old;
 	if(mlibc::sys_sigaction(sn, &sa, &old))
 		mlibc::panicLogger() << "\e[31mmlibc: sys_sigaction() failed\e[39m" << frg::endlog;
