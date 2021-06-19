@@ -13,7 +13,23 @@ namespace mlibc {
 	int sys_sigaction(int number, const struct sigaction * action,
 				struct sigaction * saved_action) {
 
-		ssize_t res = syscalln5(SYS_SIGACTION, number, (uint64_t)(action->sa_handler), static_cast<uint64_t>(action->sa_flags), static_cast<uint64_t>(action->sa_mask), (uint64_t)(__mlibc_signal_restore));
+#if 0
+		mlibc::infoLogger() << "sys_sigaction: signal " << number << frg::endlog;
+		mlibc::infoLogger() << "sys_sigaction: size: " << sizeof(*action) << frg::endlog;
+		if (action) {
+			mlibc::infoLogger() << "sys_sigaction: handler " << (int64_t)action->sa_handler << frg::endlog;
+			mlibc::infoLogger() << "sys_sigaction: action " << (int64_t)action->sa_sigaction << frg::endlog;
+			mlibc::infoLogger() << "sys_sigaction: mask " << (int64_t)action->sa_mask << frg::endlog;
+			mlibc::infoLogger() << "sys_sigaction: flags " << (int64_t)action->sa_flags << frg::endlog;
+		}
+#endif
+
+		ssize_t res = syscalln4(
+				SYS_SIGACTION,
+				number,
+				(uint64_t)(action),
+				(uint64_t)(__mlibc_signal_restore),
+				(uint64_t)saved_action);
 		
 		if (res < 0)
 			return -res;
