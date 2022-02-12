@@ -18,7 +18,7 @@ namespace mlibc{
 		return syscalln0(SYS_GETTID);
 	}
 
-	int sys_futex_wait(int *pointer, int expected){
+	int sys_futex_wait(int *pointer, int expected, const struct timespec *time){
 		ssize_t res = syscalln2(SYS_FUTEX_WAIT, (uint64_t)pointer, (uint64_t)expected);
 
 		if (res < 0)
