@@ -212,11 +212,11 @@ namespace mlibc{
 		return -1;
 	}
 
-	int sys_getgid(){
+	gid_t sys_getgid(){
 		return -1;
 	}
 
-	int sys_getegid(){
+	gid_t sys_getegid(){
 		return -1;
 	}
 
