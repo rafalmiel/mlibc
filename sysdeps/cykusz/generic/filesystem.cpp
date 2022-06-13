@@ -1,5 +1,6 @@
 #include <cykusz/syscall.h>
 
+#include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
@@ -155,14 +156,28 @@ namespace mlibc{
 
 	//#ifndef MLIBC_BUILDING_RTDL
 
+    int sys_tcgetattr(int fd, struct termios *attr) {
+        int result;
 
-	int sys_tcgetattr(int fd, struct termios *attr) {
-		return -1;
-	}
+        if (int e = sys_ioctl(fd, TCGETS, (void *)attr, &result); e)
+            return e;
 
-	int sys_tcsetattr(int fd, int optional_action, const struct termios *attr) {
-		return -1;
-	}
+        return 0;
+    }
+
+    int sys_tcsetattr(int fd, int optional_action, const struct termios *attr) {
+        if (optional_action)
+            mlibc::infoLogger()
+                << "mlibc: warning: sys_tcsetattr ignores optional_action"
+                << frg::endlog;
+
+        int result;
+
+        if (int e = sys_ioctl(fd, TCSETSF, (void *)attr, &result); e)
+            return e;
+
+        return 0;
+    }
 
 	int sys_poll(struct pollfd *fds, nfds_t count, int timeout, int *num_events){
 		return -1;
