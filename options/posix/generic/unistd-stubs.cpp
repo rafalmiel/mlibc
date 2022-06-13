@@ -260,9 +260,11 @@ int fexecve(int, char *const [], char *const []) {
 	__builtin_unreachable();
 }
 
-long fpathconf(int, int) {
-	__ensure(!"Not implemented");
-	__builtin_unreachable();
+long fpathconf(int a, int b) {
+    mlibc::infoLogger() << "fpathconf(" << a << ", " << b << ")" << frg::endlog;
+    return 0;
+	//__ensure(!"Not implemented");
+	//__builtin_unreachable();
 }
 
 int fsync(int fd) {
