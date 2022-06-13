@@ -10,7 +10,7 @@
 
 namespace [[gnu::visibility("hidden")]] mlibc {
 
-[[gnu::weak]] int sys_open(const char *pathname, int flags, int *fd);
+[[gnu::weak]] int sys_open(const char *pathname, int flags, mode_t mode, int *fd);
 [[gnu::weak]] int sys_close(int fd);
 [[gnu::weak]] int sys_read(int fd, void *buf, size_t count, ssize_t *bytes_read);
 [[gnu::weak]] int sys_write(int fd, const void *buf, size_t count, ssize_t *bytes_written);

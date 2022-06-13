@@ -25,6 +25,7 @@ endif
 if not no_headers
 	install_headers(
 		'include/abi-bits/abi.h',
+		'include/abi-bits/access.h',
 		'include/abi-bits/auxv.h',
 		'include/abi-bits/seek-whence.h',
 		'include/abi-bits/vm-flags.h',
@@ -46,6 +47,7 @@ if not no_headers
 		'include/abi-bits/nlink_t.h',
 		'include/abi-bits/pid_t.h',
 		'include/abi-bits/uid_t.h',
+		'include/abi-bits/utsname.h',
 		'include/abi-bits/limits.h',
 		'include/abi-bits/wait.h',
 		subdir: 'abi-bits'

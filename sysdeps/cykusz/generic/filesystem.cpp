@@ -1,5 +1,7 @@
 #include <cykusz/syscall.h>
 
+#include <asm/ioctls.h>
+#include <bits/ensure.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
@@ -65,7 +67,7 @@ namespace mlibc{
 	}
 
 
-	int sys_open(const char* filename, int flags, int* fd){
+	int sys_open(const char* filename, int flags, mode_t mode, int* fd){
 		ssize_t res = syscalln4(SYS_OPEN, (uint64_t)AT_FDCWD, (uint64_t)filename, (uint64_t)strlen(filename), (uint64_t)flags);
 
 		if (res < 0)
@@ -155,14 +157,36 @@ namespace mlibc{
 
 	//#ifndef MLIBC_BUILDING_RTDL
 
+    int sys_tcgetattr(int fd, struct termios *attr) {
+        int ret;
 
-	int sys_tcgetattr(int fd, struct termios *attr) {
-		return -1;
-	}
+        if (int r = sys_ioctl(fd, TCGETS, attr, &ret) != 0) {
+            return r;
+        }
 
-	int sys_tcsetattr(int fd, int optional_action, const struct termios *attr) {
-		return -1;
-	}
+        return 0;
+    }
+
+    int sys_tcsetattr(int fd, int optional_action, const struct termios *attr) {
+        int ret;
+
+        switch (optional_action) {
+            case TCSANOW:
+                optional_action = TCSETS; break;
+            case TCSADRAIN:
+                optional_action = TCSETS; break;
+            case TCSAFLUSH:
+                optional_action = TCSETS; break;
+            default:
+                __ensure(!"Unsupported tcsetattr");
+        }
+
+        if (int r = sys_ioctl(fd, optional_action, (void *)attr, &ret) != 0) {
+            return r;
+        }
+
+        return 0;
+    }
 
 	int sys_poll(struct pollfd *fds, nfds_t count, int timeout, int *num_events){
 		return -1;

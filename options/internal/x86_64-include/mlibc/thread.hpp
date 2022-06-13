@@ -14,7 +14,7 @@ void set_tcb_ready() {
 }
 #endif
 
-Tcb *get_current_tcb() {
+inline Tcb *get_current_tcb() {
 	//if (!s_is_tcb_ready) {
 	//	return nullptr;
 	//}

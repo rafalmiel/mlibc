@@ -39,7 +39,7 @@ int sys_futex_wake(int *pointer);
 [[noreturn, gnu::weak]] void sys_thread_exit();
 [[gnu::weak]] int sys_clock_get(int clock, time_t *secs, long *nanos);
 
-[[gnu::weak]] int sys_open(const char *pathname, int flags, int *fd);
+[[gnu::weak]] int sys_open(const char *pathname, int flags, mode_t mode, int *fd);
 [[gnu::weak]] int sys_flock(int fd, int options);
 
 [[gnu::weak]] int sys_open_dir(const char *path, int *handle);

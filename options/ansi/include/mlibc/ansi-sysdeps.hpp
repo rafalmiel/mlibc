@@ -18,7 +18,7 @@ namespace [[gnu::visibility("hidden")]] mlibc {
 [[noreturn, gnu::weak]] void sys_exit(int status);
 [[noreturn, gnu::weak]] void sys_thread_exit();
 
-[[gnu::weak]] int sys_open(const char *pathname, int flags, int *fd);
+[[gnu::weak]] int sys_open(const char *pathname, int flags, mode_t mode, int *fd);
 [[gnu::weak]] int sys_flock(int fd, int options);
 
 [[gnu::weak]] int sys_open_dir(const char *path, int *handle);
