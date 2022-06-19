@@ -31,6 +31,8 @@ namespace {
 // memcpy() implementation.
 // --------------------------------------------------------------------------------------
 
+#undef __LP64__
+
 #ifdef __LP64__
 
 void *memcpy(void *__restrict dest, const void *__restrict src, size_t n) {

@@ -274,6 +274,10 @@ namespace mlibc{
 	int sys_chmod(const char *pathname, mode_t mode){
 		return -1;
 	}
+    int sys_madvise(void *addr, size_t length, int advice) {
+        mlibc::infoLogger() << "mlibc: sys_madvise is a stub!" << frg::endlog;
+        return 0;
+    }
 	int sys_pipe(int *fds, int flags) {
 		ssize_t res = syscalln2(SYS_PIPE, (uint64_t)fds, (uint64_t)flags);
 
