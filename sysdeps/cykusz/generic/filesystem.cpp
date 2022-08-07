@@ -109,6 +109,11 @@ namespace mlibc{
 
 	}
 
+	int sys_fsync(int) {
+		mlibc::infoLogger() << "mlibc: fsync is a stub" << frg::endlog;
+		return 0;
+	}
+
 	int sys_faccessat(int dirfd, const char *pathname, int mode, int flags) {
 		ssize_t ret = syscalln5(SYS_ACCESS, (uint64_t)dirfd, (uint64_t)pathname, (uint64_t)strlen(pathname), (uint64_t)mode, (uint64_t)flags);
 
@@ -164,36 +169,43 @@ namespace mlibc{
             return r;
         }
 
-        return 0;
+        return ret;
     }
 
     int sys_tcsetattr(int fd, int optional_action, const struct termios *attr) {
-        int ret;
+		int ret;
 
-        switch (optional_action) {
-            case TCSANOW:
-                optional_action = TCSETS; break;
-            case TCSADRAIN:
-                optional_action = TCSETS; break;
-            case TCSAFLUSH:
-                optional_action = TCSETS; break;
-            default:
-                __ensure(!"Unsupported tcsetattr");
-        }
+		switch (optional_action) {
+		case TCSANOW:
+				optional_action = TCSETS; break;
+			case TCSADRAIN:
+				optional_action = TCSETS; break;
+			case TCSAFLUSH:
+				optional_action = TCSETS; break;
+			default:
+				__ensure(!"Unsupported tcsetattr");
+		}
 
-        if (int r = sys_ioctl(fd, optional_action, (void *)attr, &ret) != 0) {
-            return r;
-        }
+		if (int r = sys_ioctl(fd, optional_action, (void *)attr, &ret) != 0) {
+			return r;
+		}
 
-        return 0;
+		return ret;
     }
 
 	int sys_poll(struct pollfd *fds, nfds_t count, int timeout, int *num_events){
+		mlibc::infoLogger() << "mlibc: poll is a stub" << frg::endlog;
 		return -1;
 	}
 
-	int sys_mkdir(const char* path){
-		return -1;
+	int sys_mkdir(const char* path, mode_t mode) {
+		ssize_t ret = syscalln2(SYS_MKDIR, (uint64_t)path, (uint64_t)strlen(path));
+
+		if (ret < 0) {
+			return -ret;
+		}
+
+		return 0;
 	}
 
 	int sys_rmdir(const char* path){
@@ -267,8 +279,16 @@ namespace mlibc{
 	}
 
 	int sys_pselect(int nfds, fd_set* readfds, fd_set* writefds,
-			fd_set *exceptfds, const struct timespec* timeout, const sigset_t* sigmask, int *num_events) {
-		return -1;
+		fd_set *exceptfds, const struct timespec* timeout, const sigset_t* sigmask, int *num_events) {
+		ssize_t res = syscalln6(SYS_SELECT, (uint64_t)nfds, (uint64_t)readfds, (uint64_t)writefds, 0, (uint64_t)timeout, 0);
+
+		if (res < 0) {
+			return -res;
+		}
+
+		*num_events = res;
+
+		return 0;
 	}
 
 	int sys_chmod(const char *pathname, mode_t mode){
