@@ -57,6 +57,9 @@
 #define SYS_DEBUG 53
 #define SYS_ACCESS 54
 #define SYS_KILL 55
+#define SYS_SYNC 56
+#define SYS_FSYNC 57
+#define SYS_TICKSNS 58
 
 #ifdef __cplusplus
 extern "C"{

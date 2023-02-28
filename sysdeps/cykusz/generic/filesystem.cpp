@@ -106,11 +106,15 @@ namespace mlibc{
 		}
 
 		return 0;
-
 	}
 
-	int sys_fsync(int) {
-		mlibc::infoLogger() << "mlibc: fsync is a stub" << frg::endlog;
+	int sys_fsync(int fd) {
+		ssize_t ret = syscalln1(SYS_FSYNC, (uint64_t)fd);
+
+		if (ret < 0) {
+			return -ret;
+		}
+
 		return 0;
 	}
 
