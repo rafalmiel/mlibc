@@ -11,6 +11,6 @@ option('disable_intl_option', type: 'boolean', value : false)
 option('disable_glibc_option', type: 'boolean', value : false)
 option('disable_bsd_option', type: 'boolean', value : false)
 option('disable_libgcc_dependency', type : 'boolean', value : false)
-option('linux_kernel_headers', type: 'string', value : '')
+option('linux_kernel_headers', type: 'string', value : '../../linux_headers/include')
 option('debug_allocator', type : 'boolean', value : false,
 	description : 'Enable the debug allocator, which uses mmap for every allocation and adds guard pages for each allocation')
