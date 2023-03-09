@@ -42,6 +42,7 @@ int sys_sigaction(int how, const struct sigaction *__restrict action,
 
 int sys_sigprocmask(int how, const sigset_t *__restrict set,
                     sigset_t *__restrict retrieve) {
+    mlibc::infoLogger() << "sys_sigprocmask: signal " << how << frg::endlog;
     auto result = syscall(SYS_SIGPROCMASK, how, set, retrieve);
 
     if (result < 0) {
