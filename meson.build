@@ -256,6 +256,12 @@ elif host_machine.system() == 'dripos'
 	rtld_include_dirs += include_directories('sysdeps/dripos/include')
 	libc_include_dirs += include_directories('sysdeps/dripos/include')
 	subdir('sysdeps/dripos')
+elif host_machine.system() == 'cykusz'
+	rtld_include_dirs += include_directories('sysdeps/cykusz/include')
+	libc_include_dirs += include_directories('sysdeps/cykusz/include')
+	internal_conf.set10('MLIBC_MAP_DSO_SEGMENTS', true)
+	internal_conf.set10('MLIBC_MAP_FILE_WINDOWS', true)
+	subdir('sysdeps/cykusz')
 else
 	error('No sysdeps defined for OS: ' + host_machine.system())
 endif
@@ -452,12 +458,14 @@ if not headers_only
 		'-fvisibility=hidden',
 		'-fvisibility-inlines-hidden',
 		'-fno-stack-protector',
+		'-D_GNU_SOURCE',
 		'-DMLIBC_BUILDING_RTLD',
 		'-Wno-extern-c-compat',
 		'-Wno-unknown-pragmas',
 	]
 
 	libc_cpp_args = [
+		'-D_GNU_SOURCE',
 		'-Wno-unknown-pragmas',
 	]
 
