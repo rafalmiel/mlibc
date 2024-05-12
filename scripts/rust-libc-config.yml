@@ -1,5 +1,5 @@
 includes:
-  - '../../build/tools/system-gcc/lib/gcc/x86_64-managarm/13.2.0/include/'
+  - '../../../cross/lib/gcc/x86_64-cykusz/12.2.0/include'
 
 ignored_files:
   - "abi-bits/limits.h"
@@ -7,8 +7,10 @@ ignored_files:
   - "abi-bits/wait.h"
   - "abi-bits/xattr.h"
   - "arpa/nameser.h"
+  - "bits/search.h"
   - "bits/ensure.h"
   - "bits/glibc/glibc_assert.h"
+  - "bits/glibc/glibc_search.h"
   - "bits/glibc/glibc_signal.h"
   - "bits/null.h"
   - "bits/syscall.h"
@@ -17,6 +19,7 @@ ignored_files:
   - "net/if_ppp.h"
   - "netax25/ax25.h"
   - "netinet/icmp6.h"
+  - "netinet/if_ether.h"
   - "netinet/ip.h"
   - "netinet/ip6.h"
   - "netinet/ip_icmp.h"
@@ -30,6 +33,7 @@ ignored_files:
   - "sys/mount.h"
   - "sys/mtio.h"
   - "sys/user.h"
+  - "sys/param.h"
   - "sys/procfs.h"
   - "sys/queue.h"
   - "sys/ttydefaults.h"
@@ -168,6 +172,8 @@ ignored_var_declarations:
   - "error_print_progname"
 
 ignored_macros:
+  - "GET_SYSCALL"
+  - "syscall"
   - "strdupa"
   - "strndupa"
   - "e_exit"
