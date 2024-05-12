@@ -1,6 +1,8 @@
 includes: []
 
 ignored_files:
+  - "cykusz/syscall.h"
+  - "abi-bits/riscv-hwprobe.h"
   - "abi-bits/limits.h"
   - "abi-bits/vt.h"
   - "abi-bits/wait.h"
@@ -96,11 +98,11 @@ ignored_structs:
   - "sockaddr"
   - "sockaddr_in"
   - "sockaddr_in6"
-  - "addrinfo" # TODO: fix #[cfg()]
+  - "addrinfo" # TODO: fix #[cfg()]
   - "sockaddr_ll"
   - "fd_set"
   - "tm"
-  - "sched_param" # TODO: fix #[cfg()]
+  - "sched_param" # TODO: fix #[cfg()]
   - "Dl_info"
   - "lconv"
   - "in_pktinfo"
@@ -2214,3 +2216,4 @@ force_macro_type:
     - "VT1"
     - "VTDLY"
     - "XTABS"
+
