@@ -1,5 +1,5 @@
 includes:
-  - '../../build/tools/system-gcc/lib/gcc/x86_64-managarm/13.2.0/include/'
+  - '../../../cross/lib/gcc/x86_64-cykusz/12.2.0/include'
 
 ignored_files:
   - "abi-bits/limits.h"
@@ -168,6 +168,8 @@ ignored_var_declarations:
   - "error_print_progname"
 
 ignored_macros:
+  - "GET_SYSCALL"
+  - "syscall"
   - "strdupa"
   - "strndupa"
   - "e_exit"
