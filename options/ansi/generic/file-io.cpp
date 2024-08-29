@@ -254,8 +254,13 @@ int abstract_file::unget(char c) {
 	if ((size_t)(__buffer_ptr - __unget_ptr) + 1 > ungetBufferSize)
 		return EOF;
 	else {
-		*(--__unget_ptr) = c;
-		return c;
+		if (__offset == 0) {
+			*(--__unget_ptr) = c;
+			return c;
+		} else {
+			*(__buffer_ptr + --__offset) = c;
+			return c;
+		}
 	}
 }
 
