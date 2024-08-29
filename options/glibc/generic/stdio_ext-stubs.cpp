@@ -53,9 +53,25 @@ size_t __freadahead(FILE *file_base) {
 	}
 	return file_base->__valid_limit - file_base->__offset;
 }
-const char *__freadptr(FILE *, size_t *) {
-	__ensure(!"Not implemented");
-	__builtin_unreachable();
+const char *__freadptr(FILE *file_base, size_t *size) {
+	if(file_base->__io_mode != 0) {
+		mlibc::infoLogger() << "mlibc: __freadptr() called but file is not open for reading" << frg::endlog;
+		return 0;
+	}
+
+	if (file_base->__offset == file_base->__valid_limit) {
+		*size = 0;
+		return 0;
+	}
+
+	__ensure(file_base->__valid_limit > file_base->__offset);
+
+	*size = file_base->__valid_limit - file_base->__offset;
+	mlibc::infoLogger() << "mlibc: __freadptr() " << *size << " " << (file_base->__buffer_ptr + file_base->__offset) << frg::endlog;
+	return file_base->__buffer_ptr + file_base->__offset;
+}
+void __freadptrinc(FILE *file_base, size_t inc) {
+	file_base->__offset += inc;
 }
 void __fseterr(FILE *) {
 	__ensure(!"Not implemented");

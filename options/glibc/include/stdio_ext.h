@@ -30,6 +30,7 @@ void _flushlbf(void);
 
 size_t __freadahead(FILE *);
 const char *__freadptr(FILE *, size_t *);
+void __freadptrinc(FILE*, size_t);
 void __fseterr(FILE *);
 
 #endif /* !__MLIBC_ABI_ONLY */
