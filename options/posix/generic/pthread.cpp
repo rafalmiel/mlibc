@@ -1352,6 +1352,12 @@ int pthread_rwlock_wrlock(pthread_rwlock_t *rw) {
 	return 0;
 }
 
+int pthread_rwlock_timedwrlock(pthread_rwlock_t *__restrict __mtx,
+		const struct timespec *__restrict __abs_timeout) {
+	__ensure(!"Not implemented");
+	__builtin_unreachable();
+}
+
 int pthread_rwlock_tryrdlock(pthread_rwlock_t *rw) {
 	SCOPE_TRACE();
 
@@ -1383,6 +1389,12 @@ int pthread_rwlock_rdlock(pthread_rwlock_t *rw) {
 	rwlock_m_unlock(rw);
 
 	return 0;
+}
+
+int pthread_rwlock_timedrdlock(pthread_rwlock_t *__restrict __mtx,
+		const struct timespec *__restrict __abs_timeout) {
+	__ensure(!"Not implemented");
+	__builtin_unreachable();
 }
 
 int pthread_rwlock_unlock(pthread_rwlock_t *rw) {
