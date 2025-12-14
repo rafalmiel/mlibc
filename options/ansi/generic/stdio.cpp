@@ -673,6 +673,8 @@ static int do_scanf(H &handler, const char *fmt, __builtin_va_list args) {
 					}
 					count++;
 					c = handler.look_ahead();
+					if (width && count >= width)
+						break;
 				}
 				NOMATCH_CHECK(count == 0);
 
